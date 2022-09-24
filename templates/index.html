@@ -1,5 +1,34 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>Content </p>
+
+<h3> Visitas </h3>
+<hr>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Cedula</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Empresa</th>
+        <th scope="col">Hora de Entrada</th>
+        <th scope="col">Registrar Salida</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for visit in visits %}
+      <tr>
+        <th scope="row">{{ visit.Visitas.cid }}</th>
+        <td>{{ visit.Visitantes.name }}</td>
+        <td>{{  visit.Visitantes.company }}</td>
+        <td>{{ visit.Visitas.date_in }}</td>
+        <td>
+          <form action="{{ url_for('register_out',id=visit.Visitas.id)}}" method="POST">
+            <button type="submit" class="btn btn-primary">Salida</button>
+         </form>
+        </td>
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
 {% endblock %}
