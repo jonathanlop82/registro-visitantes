@@ -6,21 +6,23 @@
 <hr>
 <div class="col-6">
 
+  {% if visitor %}
+
   <form action="{{ url_for("register") }}" method="post">
     <div class="mb-3">
       <label for="InputCID" class="form-label">Cedula</label>
-      <input type="text" class="form-control" id="InputCID" name="cid">
+      <input type="text" class="form-control" id="InputCID" name="cid" value="{{ visitor.cid }}">
       <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
     </div>
     <div class="mb-3">
       <label for="InputName" class="form-label">Nombre</label>
-      <input type="text" class="form-control" id="InputName" name="name">
+      <input type="text" class="form-control" id="InputName" name="name" value="{{ visitor.name }}">
     </div>
     <div class="mb-3">
       <label for="InputCompany" class="form-label">Empresa</label>
-      <input type="text" class="form-control" id="InputCompany" name="company">
+      <input type="text" class="form-control" id="InputCompany" name="company" value="{{ visitor.company }}">
     </div>
-    <button  type="submit" class="btn btn-primary">Submit</button>
+    <button  type="submit" class="btn btn-primary">Registrar</button>
     {% with messages = get_flashed_messages() %}
       {% if messages %}
           {% for message in messages %}
@@ -29,6 +31,39 @@
       {% endif %}
     {% endwith %}
   </form>
+
+  {% else %}
+    <form action="{{ url_for("register") }}" method="post">
+      <div class="mb-3">
+        <label for="InputCID" class="form-label">Cedula</label>
+        <input type="text" class="form-control" id="InputCID" name="cid" value="{{ cid }}">
+        <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+      </div>
+      <div class="mb-3">
+        <label for="InputName" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="InputName" name="name">
+      </div>
+      <div class="mb-3">
+        <label for="InputCompany" class="form-label">Empresa</label>
+        <input type="text" class="form-control" id="InputCompany" name="company">
+      </div>
+      <div class="mb-3">
+        <label for="InputCidImage" class="form-label">Captura de Cedula</label><br>
+        <input type=file name=file>
+        <!-- <input type=submit value=Upload> -->
+      </div>
+      </div>
+      <button  type="submit" class="btn btn-primary">Registrar</button>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+              {{ message }}
+            {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </form>
+  {% endif %}
+
 </div>
 
 

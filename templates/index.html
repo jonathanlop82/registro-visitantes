@@ -6,7 +6,7 @@
 <hr>
 <table class="table">
     <thead>
-      <tr>
+      <tr class="text-center">
         <th scope="col">Cedula</th>
         <th scope="col">Nombre</th>
         <th scope="col">Empresa</th>
@@ -16,7 +16,7 @@
     </thead>
     <tbody>
         {% for visit in visits %}
-      <tr>
+      <tr class="text-center">
         <th scope="row">{{ visit.Visitas.cid }}</th>
         <td>{{ visit.Visitantes.name }}</td>
         <td>{{  visit.Visitantes.company }}</td>

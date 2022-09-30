@@ -55,6 +55,22 @@ def home():
     ).all()
     return render_template('index.html', visits=visits)
 
+@app.route('/buscar', methods=['POST','GET'])
+def search():
+    if request.method == "POST":
+        cid = request.form.get("cid")
+        visitor_to_find = Visitantes.query.filter_by(cid=cid).first()
+        if visitor_to_find:
+            return render_template('register.html', visitor=visitor_to_find)
+        else:
+            flash('Visitante no encontrado')
+            return render_template('register.html', cid=cid)
+
+    return render_template('register_search.html')
+
+
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == "POST":
@@ -62,13 +78,27 @@ def register():
         name = request.form.get("name")
         company = request.form.get("company")
 
-        visitante = Visitantes(name=name, company=company, cid=cid)
-        db.session.add(visitante)
-        db.session.commit()
+        visitor = Visitantes.query.filter_by(cid=cid).first()
 
-        visita = Visitas(cid=cid, date_in=dt.datetime.now(), status=True)
-        db.session.add(visita)
-        db.session.commit()
+        # visits = Visitas.query.filter_by(cid=cid).all()
+        visits = db.session.query(Visitas).filter(Visitas.cid == cid).filter(Visitas.status == True).all()
+
+        if not(visitor):
+            visitante = Visitantes(name=name, company=company, cid=cid)
+            db.session.add(visitante)
+            db.session.commit()
+
+        if not(visits):
+            visita = Visitas(cid=cid, date_in=dt.datetime.now(), status=True)
+            db.session.add(visita)
+            db.session.commit()
+            flash('Registro realizado exitosamente!')
+            return render_template('register.html')
+
+        else:
+            flash('Existe un registro sin salida registrada!')
+            return render_template('register.html')
+        
 
         flash('Registro realizado exitosamente!')
         return render_template('register.html')
