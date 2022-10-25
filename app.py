@@ -2,6 +2,7 @@ from crypt import methods
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import datetime as dt
+import os
 
 
 app = Flask(__name__)
@@ -10,11 +11,14 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///registro-visitas.db"
 db = SQLAlchemy(app)
 
+app.config["IMAGE_UPLOADS"] = "/Users/tecnologia/WORKDIR/REGISTRO_DE_VISITAS/static/img/images_id/"
+
 class Visitantes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250), nullable=False)
     company = db.Column(db.String(250), nullable=False)
     cid = db.Column(db.String(20), unique=True, nullable=False)
+    id_image = db.Column(db.String(100), nullable=True)
     
 
     def __repr__(self):
@@ -77,6 +81,22 @@ def register():
         cid = request.form.get("cid")
         name = request.form.get("name")
         company = request.form.get("company")
+        # if request.files['image'].filename == '':
+        #     print('No hay archivo')
+        # else:
+        #     print(request.files['image'].filename)
+        if request.files:
+            # print('UPLOAD')
+            image = request.files["image"]
+            # print(image + "Uploaded to Faces")
+            # flash('Image successfully Uploaded to Faces.')
+            image.save(os.path.join(app.config["IMAGE_UPLOADS"], image.filename))
+            filename = os.path.join(app.config["IMAGE_UPLOADS"], image.filename)
+            id_image = str(image.filename)
+        else:
+            # print('NOTHING')
+            id_image = None
+        
 
         visitor = Visitantes.query.filter_by(cid=cid).first()
 
@@ -84,7 +104,7 @@ def register():
         visits = db.session.query(Visitas).filter(Visitas.cid == cid).filter(Visitas.status == True).all()
 
         if not(visitor):
-            visitante = Visitantes(name=name, company=company, cid=cid)
+            visitante = Visitantes(name=name, company=company, cid=cid, id_image=id_image)
             db.session.add(visitante)
             db.session.commit()
 
@@ -93,7 +113,7 @@ def register():
             db.session.add(visita)
             db.session.commit()
             flash('Registro realizado exitosamente!')
-            return render_template('register.html')
+            return redirect(url_for('home'))
 
         else:
             flash('Existe un registro sin salida registrada!')

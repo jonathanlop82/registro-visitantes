@@ -22,6 +22,9 @@
       <label for="InputCompany" class="form-label">Empresa</label>
       <input type="text" class="form-control" id="InputCompany" name="company" value="{{ visitor.company }}">
     </div>
+    <div class="mb-3">
+      <img class="cedula" src="{{ url_for('static', filename='img/images_id/' ~ visitor.id_image ) }}">
+    </div>
     <button  type="submit" class="btn btn-primary">Registrar</button>
     {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -33,7 +36,7 @@
   </form>
 
   {% else %}
-    <form action="{{ url_for("register") }}" method="post">
+    <form action="{{ url_for("register") }}" method="post" enctype="multipart/form-data" >
       <div class="mb-3">
         <label for="InputCID" class="form-label">Cedula</label>
         <input type="text" class="form-control" id="InputCID" name="cid" value="{{ cid }}">
@@ -49,7 +52,7 @@
       </div>
       <div class="mb-3">
         <label for="InputCidImage" class="form-label">Captura de Cedula</label><br>
-        <input type=file name=file>
+        <input type=file name=image id=image>
         <!-- <input type=submit value=Upload> -->
       </div>
       </div>
