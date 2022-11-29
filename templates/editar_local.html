@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3> Editar Local </h3>
+<hr>
+<div class="col-6"> 
+    <form action="{{ url_for('editar_local',id=local.id) }}" method="POST" enctype="multipart/form-data" >
+        <div class="mb-3">
+            <label for="InputNombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="InputNombre" name="nombre_local" value="{{ local.nombre_local }}">
+            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+        </div>
+        <div class="mb-3">
+            <label for="InputNumLocal" class="form-label">Numero de Local</label>
+            <input type="text" class="form-control" id="InputNumLocal" name="numero_local" value="{{ local.codigo_local }}">
+        </div>
+        <div class="mb-3">
+            <label for="InputNivel" class="form-label">Nivel</label>
+            <!-- <input type="text" class="form-control" id="InputNivel" name="nivel"> -->
+            <select class="form-control" name="nivel" id="InputNivel">
+                {% if local.nivel_local == '000' %}
+                <option value="000">000</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+                {% elif local.nivel_local == '100' %}
+                <option value="000">000</option>
+                <option value="100" selected="selected">100</option>
+                <option value="200">200</option>
+                {% else %}
+                <option value="000">000</option>
+                <option value="100">100</option>
+                <option value="200" selected="selected">200</option>
+                {% endif %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="InputTelefono" class="form-label">Telefono</label>
+            <input type="text" class="form-control" id="InputTelefono" name="telefono" value="{{ local.telefono_local }}">
+        </div>
+        <div class="mb-3">
+            <label for="InputEncargado" class="form-label">Encargado</label>
+            <input type="text" class="form-control" id="InputEncargado" name="encargado" value="{{ local.encargado_local }}">
+        </div>
+        
+
+        <button  type="submit" class="btn btn-primary">Actualizar</button>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    </form>
+</div>
+{% endblock %}

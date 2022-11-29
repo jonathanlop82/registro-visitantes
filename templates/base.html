@@ -32,6 +32,16 @@
                   </li>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Locales
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="{{ url_for('agregar_local') }}">Nuevo Local</a></li>
+                      <li><a class="dropdown-item" href="{{ url_for('actualizar_locales') }}">Actualizar Local</a></li>
+                      <li><a class="dropdown-item" href="{{ url_for('eliminar_locales') }}">Eliminar Local</a></li>
+                    </ul>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Reportes
                     </a>
                     <ul class="dropdown-menu">

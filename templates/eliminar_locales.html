@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3> Eliminar locales </h3>
+<hr>
+
+<div class="col-6"> 
+    <form action="{{ url_for("agregar_local") }}" method="post" enctype="multipart/form-data" >
+        <div class="mb-3">
+            <label for="InputNombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="InputNombre" name="nombre_local">
+            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+        </div>
+        
+
+        <button  type="submit" class="btn btn-primary">Buscar</button>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    </form>
+</div>
+
+<hr>
+
+<table class="table">
+    <thead>
+      <tr class="text-center">
+        <th scope="col">ID</th>
+        <th scope="col">Local</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Nivel</th>
+        <th scope="col">Telefono</th>
+        <th scope="col">Encargado</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for local in locales %}
+      <tr class="text-center">
+        <th scope="row">{{ local.id }}</th>
+        <td>{{ local.codigo_local }}</td>
+        <td>{{  local.nombre_local }}</td>
+        <td>{{ local.nivel_local }}</td>
+        <td>{{ local.telefono_local }}</td>
+        <td>{{ local.encargado_local }}</td>
+        <td>
+          <form action="{{ url_for('eliminar_local',id=local.id) }}" method="POST">
+            <button type="submit" class="btn btn-primary">Eliminar</button>
+         </form>
+        </td>
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+
+{% endblock %}

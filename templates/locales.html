@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3> Locales </h3>
+<hr>
+<div class="col-6"> 
+    <form action="{{ url_for("agregar_local") }}" method="post" enctype="multipart/form-data" >
+        <div class="mb-3">
+            <label for="InputNombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="InputNombre" name="nombre_local">
+            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+        </div>
+        <div class="mb-3">
+            <label for="InputNumLocal" class="form-label">Numero de Local</label>
+            <input type="text" class="form-control" id="InputNumLocal" name="numero_local">
+        </div>
+        <div class="mb-3">
+            <label for="InputNivel" class="form-label">Nivel</label>
+            <!-- <input type="text" class="form-control" id="InputNivel" name="nivel"> -->
+            <select class="form-control" name="nivel" id="InputNivel">
+                <option value="000">000</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+                <!-- <option value="audi">Audi</option> -->
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="InputTelefono" class="form-label">Telefono</label>
+            <input type="text" class="form-control" id="InputTelefono" name="telefono">
+        </div>
+        <div class="mb-3">
+            <label for="InputEncargado" class="form-label">Encargado</label>
+            <input type="text" class="form-control" id="InputEncargado" name="encargado">
+        </div>
+        
+
+        <button  type="submit" class="btn btn-primary">Registrar</button>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    </form>
+</div>
+{% endblock %}
